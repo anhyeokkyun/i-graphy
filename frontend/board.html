@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i-graphy · Board</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <a class="site-name" href="/">i-graphy</a>
+</header>
+
+<main class="page-content">
+    <section aria-live="polite">
+        <div class="board-create-action">
+            <a class="button button-primary" href="/new-post">New Post</a>
+        </div>
+
+        <div id="board-list"></div>
+
+        <div class="board-search-action">
+            <form id="search-form" class="search-form">
+                <label class="sr-only" for="search-type">검색 조건</label>
+                <select id="search-type" name="search_type">
+                    <option value="title">Title</option>
+                    <option value="content">Content</option>
+                    <option value="title_content">Title+Content</option>
+                </select>
+
+                <label class="sr-only" for="search-input">검색어</label>
+                <input
+                    id="search-input"
+                    name="search"
+                    type="search"
+                    placeholder="Search..."
+                >
+
+                <button class="button" type="submit">Search</button>
+            </form>
+        </div>
+
+        <nav id="pagination" class="pagination" aria-label="페이지 이동"></nav>
+    </section>
+</main>
+
+<footer>Copyright 2026 An, Hyeokkyun. All rights reserved.</footer>
+
+<script src="/js/board.js"></script>
+</body>
+</html>
