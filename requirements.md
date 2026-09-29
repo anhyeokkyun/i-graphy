@@ -49,11 +49,11 @@
 
 게시글은 최소한 다음 정보를 가진다.
 
--   게시글 ID
--   제목
--   내용
--   작성일시
--   수정일시
+* 게시글 ID
+* 제목
+* 내용
+* 작성일시
+* 수정일시
 
 초기 버전에서는 게시글에 별도의 카테고리를 사용하지 않는다. 미리 정의된
 카테고리 목록도 두지 않는다.
@@ -64,34 +64,73 @@
 
 게시글 목록을 확인할 수 있어야 한다.
 
--   게시글 목록 표시
--   게시글의 기본 정보 표시
--   개별 게시글 조회 화면으로 이동
+* 게시글 목록 표시
+* 게시글의 기본 정보 표시
+* 개별 게시글 조회 화면으로 이동
 
-### 4.2 게시글 작성
+### 4.2 게시글 검색
+
+게시글 제목과 내용을 검색할 수 있어야 한다.
+
+* 제목과 내용 모두 검색 대상에 포함
+* 부분 문자열 검색
+* 대소문자 구분하지 않음
+* 검색어는 공백을 기준으로 분리
+* 여러 검색어가 있는 경우 모든 검색어를 만족해야 함
+* 각 검색어는 제목 또는 내용 중 하나에 포함되면 검색 조건을 만족
+* 검색어가 없거나 공백만 있는 경우 전체 게시글 반환
+* 검색 결과는 `created_at DESC`로 정렬
+* PostgreSQL Full-Text Search는 사용하지 않음
+
+예를 들어 다음과 같은 게시글이 있다고 가정한다.
+
+```text
+글 1
+제목: 이것은
+내용: ...
+
+글 2
+제목: ...
+내용: 테스트입니다.
+```
+
+검색어가 다음과 같은 경우:
+
+```text
+이것  테스트
+```
+
+검색어는 `이것`, `테스트`로 분리된다.
+
+따라서 `이것`이 글 1의 제목에 포함되고 `테스트`가 글 2의
+내용에 포함되므로 두 게시글 모두 검색 결과에 포함된다.
+
+검색어 사이의 공백 개수는 검색어를 구분하는 용도로만 사용한다.
+
+### 4.3 게시글 작성
 
 사용자는 새로운 게시글을 작성할 수 있어야 한다.
 
--   제목 입력
--   내용 입력
--   게시글 저장
+* 제목 입력
+* 내용 입력
+* 게시글 저장
 
-### 4.3 게시글 조회
+### 4.4 게시글 조회
 
 사용자는 특정 게시글의 내용을 확인할 수 있어야 한다.
 
-게시글 조회 화면의 파일명은 `search-post.html`로 한다.
+게시글 조회 화면의 파일명은 `post.html`로 한다.
 
-### 4.4 게시글 수정
+### 4.5 게시글 수정
 
 사용자는 기존 게시글을 수정할 수 있어야 한다.
 
--   기존 제목 표시
--   기존 내용 표시
--   내용 수정
--   수정 내용 저장
+* 기존 제목 표시
+* 기존 내용 표시
+* 내용 수정
+* 수정 내용 저장
 
-### 4.5 게시글 삭제
+### 4.6 게시글 삭제
 
 사용자는 기존 게시글을 삭제할 수 있어야 한다.
 
@@ -109,13 +148,17 @@
 
 게시글 목록을 표시한다.
 
+### `search-post.html`
+
+검색 결과를 표시한다.
+
+### `post.html`
+
+특정 게시글을 조회한다.
+
 ### `new-post.html`
 
 새 게시글을 작성한다.
-
-### `search-post.html`
-
-특정 게시글을 조회한다.
 
 ### `edit-post.html`
 
@@ -123,39 +166,41 @@
 
 ## 6. 기술 스택
 
-  영역               기술
-  ------------------ -----------------------
-  Frontend           HTML, CSS, JavaScript
-  Backend            Python, FastAPI
-  API                REST API
-  ORM / DB 접근      SQLAlchemy
-  Database           PostgreSQL
-  Database Hosting   Supabase
-  Deployment         Render
-  Version Control    Git
-  Repository         GitHub
-  IDE                Visual Studio Code
+| 영역               | 기술                    |
+| ---------------- | --------------------- |
+| Frontend         | HTML, CSS, JavaScript |
+| Backend          | Python, FastAPI       |
+| API              | REST API              |
+| ORM / DB 접근      | SQLAlchemy            |
+| Database         | PostgreSQL            |
+| Database Hosting | Supabase              |
+| Deployment       | Render                |
+| Version Control  | Git                   |
+| Repository       | GitHub                |
+| IDE              | Visual Studio Code    |
 
 ## 7. 애플리케이션 구조
 
-Frontend와 Backend를 분리하여 관리한다.
+FastAPI 하나가 Frontend와 REST API를 함께 제공한다.
 
 예정된 기본 구조:
 
-``` text
+```text
 i-graphy/
 ├── frontend/
 │   ├── index.html
 │   ├── board.html
-│   ├── new-post.html
 │   ├── search-post.html
+│   ├── post.html
+│   ├── new-post.html
 │   ├── edit-post.html
 │   ├── css/
 │   │   └── style.css
 │   └── js/
 │       ├── board.js
-│       ├── new-post.js
 │       ├── search-post.js
+│       ├── post.js
+│       ├── new-post.js
 │       └── edit-post.js
 │
 ├── backend/
@@ -170,6 +215,8 @@ i-graphy/
 └── README.md
 ```
 
+Frontend와 REST API는 하나의 FastAPI 애플리케이션에서 제공한다.
+
 구체적인 파일 및 디렉터리는 구현 과정에서 필요한 경우 변경할 수 있으며,
 변경 시 관련 문서를 업데이트한다.
 
@@ -181,16 +228,21 @@ Python 기반의 FastAPI를 Backend 웹 프레임워크로 사용한다.
 
 FastAPI를 이용하여 REST API를 구현한다.
 
+또한 하나의 FastAPI 애플리케이션에서 Frontend 페이지와 REST API를 함께
+제공한다.
+
 ### 8.2 API 통신
 
-Frontend와 Backend는 HTTP 기반 REST API를 통해 통신한다.
+Frontend와 Backend의 통신은 HTTP 기반 REST API를 사용한다.
 
 Frontend의 JavaScript에서는 `fetch()`를 사용하여 API를 호출한다.
 
 기본 통신 구조:
 
-``` text
+```text
 Browser
+    ↓
+Frontend
     ↓ fetch()
 FastAPI REST API
     ↓
@@ -198,6 +250,9 @@ SQLAlchemy
     ↓
 PostgreSQL
 ```
+
+FastAPI가 Frontend 페이지와 REST API를 함께 제공하므로 초기 프로젝트에서
+별도의 Frontend 서버를 사용하지 않는다.
 
 ### 8.3 SQLAlchemy
 
@@ -208,16 +263,23 @@ PostgreSQL 데이터베이스에 접근하기 위한 ORM/DB 접근 기술로 SQL
 
 게시글 관리를 위한 기본 API:
 
-  HTTP Method   Endpoint            기능
-  ------------- ------------------- ------------------
-  GET           `/api/posts`        게시글 목록 조회
-  GET           `/api/posts/{id}`   특정 게시글 조회
-  POST          `/api/posts`        게시글 작성
-  PUT           `/api/posts/{id}`   게시글 수정
-  DELETE        `/api/posts/{id}`   게시글 삭제
+| HTTP Method | Endpoint          | 기능             |
+| ----------- | ----------------- | -------------- |
+| GET         | `/api/posts`      | 게시글 목록 조회 및 검색 |
+| GET         | `/api/posts/{id}` | 특정 게시글 조회      |
+| POST        | `/api/posts`      | 게시글 작성         |
+| PUT         | `/api/posts/{id}` | 게시글 수정         |
+| DELETE      | `/api/posts/{id}` | 게시글 삭제         |
 
-API의 구체적인 요청 데이터와 응답 데이터 형식은 API 설계 단계에서 별도로
-결정하고 문서화한다.
+게시글 검색은 `GET /api/posts`의 `search` query parameter를 사용한다.
+
+예:
+
+```text
+GET /api/posts?search=이것%20테스트
+```
+
+API의 구체적인 요청 데이터와 응답 데이터 형식은 `api.md`에 문서화한다.
 
 ## 10. Database 요구사항
 
@@ -225,7 +287,7 @@ PostgreSQL을 데이터베이스로 사용한다.
 
 초기 게시글 테이블은 최소한 다음 구조를 가진다.
 
-``` text
+```text
 posts
 ├── id
 ├── title
@@ -235,16 +297,16 @@ posts
 ```
 
 구체적인 데이터 타입, 기본값, 제약조건 및 인덱스 등의 세부사항은
-Database 설계 단계에서 결정한다.
+`database.md`에 문서화한다.
 
 ## 11. Hosting 및 배포
 
-### 11.1 Frontend / Backend
+### 11.1 Application
 
 Render를 사용하여 웹 애플리케이션을 배포한다.
 
-Frontend와 FastAPI Backend를 하나의 배포 환경에서 운영하는 방향으로
-구성하여 초기 프로젝트에서 불필요한 CORS 복잡성을 줄인다.
+FastAPI 하나가 Frontend와 REST API를 함께 제공하는 구조로 운영하여
+초기 프로젝트에서 불필요한 CORS 복잡성을 줄인다.
 
 ### 11.2 Database
 
@@ -299,7 +361,7 @@ REST API의 Endpoint, 요청 형식, 응답 형식 등을 기록한다.
 
 변경이 필요한 경우 다음 순서로 진행한다.
 
-``` text
+```text
 문제 또는 새로운 요구 발생
         ↓
 선택지 및 영향 검토
@@ -322,20 +384,21 @@ REST API의 Endpoint, 요청 형식, 응답 형식 등을 기록한다.
 
 초기 MVP의 핵심 범위:
 
-1.  프로젝트 기본 구조 구성
-2.  PostgreSQL 연결
-3.  SQLAlchemy 설정
-4.  FastAPI 기본 서버 구성
-5.  게시글 REST API 구현
-6.  게시글 목록 화면 구현
-7.  게시글 작성 화면 구현
-8.  게시글 조회 화면 구현
-9.  게시글 수정 화면 구현
-10. 게시글 삭제 기능 구현
-11. Frontend와 Backend 연동
-12. 기본 테스트
-13. GitHub를 통한 버전 관리
-14. Render 배포
-15. Supabase PostgreSQL 연결
+1. 프로젝트 기본 구조 구성
+2. PostgreSQL 연결
+3. SQLAlchemy 설정
+4. FastAPI 기본 서버 구성
+5. 게시글 REST API 구현
+6. 게시글 목록 화면 구현
+7. 게시글 검색 기능 구현
+8. 게시글 작성 화면 구현
+9. 게시글 조회 화면 구현
+10. 게시글 수정 화면 구현
+11. 게시글 삭제 기능 구현
+12. Frontend와 Backend 연동
+13. 기본 테스트
+14. GitHub를 통한 버전 관리
+15. Render 배포
+16. Supabase PostgreSQL 연결
 
 로그인, 계정 생성, 카테고리 등의 기능은 초기 MVP 범위에 포함하지 않는다.
