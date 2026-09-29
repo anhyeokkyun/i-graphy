@@ -48,7 +48,7 @@ function renderPost(post) {
     const listButton = document.createElement("a");
     listButton.className = "button";
     listButton.href = getReturnUrl();
-    listButton.textContent = "목록";
+    listButton.textContent = "List";
 
     const right = document.createElement("div");
     right.className = "post-actions-right";
@@ -56,12 +56,12 @@ function renderPost(post) {
     const editButton = document.createElement("a");
     editButton.className = "button";
     editButton.href = `/edit-post?id=${encodeURIComponent(post.id)}&from=${encodeURIComponent(getReturnUrl())}`;
-    editButton.textContent = "수정";
+    editButton.textContent = "Edit";
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "button";
     deleteButton.type = "button";
-    deleteButton.textContent = "삭제";
+    deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => deletePost(post.id));
 
     right.append(editButton, deleteButton);
