@@ -63,8 +63,11 @@ button, input, select, textarea { font: inherit; }
 
 .button {
     display: inline-block;
+    appearance: none;
+    -webkit-appearance: none;
     border: 1px solid #bbb;
     background: #fff;
+    color: #222;
     padding: 7px 12px;
     text-decoration: none;
     cursor: pointer;
