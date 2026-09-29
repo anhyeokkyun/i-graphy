@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i-graphy · Edit Post</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <a class="site-name" href="/">i-graphy</a>
+</header>
+<main class="page-content">
+    <h1>게시글 수정</h1>
+    <form id="post-form" class="post-form" hidden>
+        <label for="title">제목</label>
+        <input id="title" name="title" type="text" maxlength="255">
+        <label for="content">내용</label>
+        <textarea id="content" name="content"></textarea>
+        <div class="form-actions">
+            <button id="cancel-button" class="button" type="button">취소</button>
+            <button class="button button-primary" type="submit">저장</button>
+        </div>
+    </form>
+</main>
+<footer>Copyright 2026 An, Hyeokkyun. All rights reserved.</footer>
+<script src="/js/edit-post.js"></script>
+</body>
+</html>
