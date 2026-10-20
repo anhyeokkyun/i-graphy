@@ -290,3 +290,33 @@ footer {
         gap: 6px;
     }
 }
+
+/* Account landing and session controls */
+.account-bar { display: flex; justify-content: flex-end; align-items: center; gap: 10px; font-size: 13px; }
+.button:disabled { opacity: .6; cursor: wait; }
+.auth-page { min-height: 100vh; }
+.auth-shell { width: min(100% - 32px, 420px); margin: 9vh auto 0; }
+.auth-brand { text-align: center; margin-bottom: 32px; }
+.auth-brand .site-name { display: inline-block; }
+.auth-brand p { margin: 4px 0 0; color: #666; font-size: 14px; }
+.auth-card { border: 1px solid #ddd; padding: 24px; }
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #ddd; margin: -4px 0 24px; }
+.auth-tab { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 10px 4px; cursor: pointer; }
+.auth-tab.is-active { border-bottom-color: #222; font-weight: 700; }
+.auth-card h1 { font-size: 24px; margin-bottom: 4px; }
+.auth-description { color: #666; font-size: 14px; margin: 0 0 20px; }
+.auth-form { display: flex; flex-direction: column; gap: 8px; }
+.auth-form label { margin-top: 8px; font-size: 14px; }
+.auth-form input { width: 100%; border: 1px solid #bbb; padding: 10px; }
+.auth-submit { margin-top: 12px; padding: 10px; }
+.auth-message { color: #b00020; font-size: 14px; margin: 4px 0 0; }
+.auth-switch { text-align: center; font-size: 13px; color: #666; margin: 20px 0 0; }
+.auth-switch button { border: 0; padding: 0; background: none; text-decoration: underline; cursor: pointer; color: #222; }
+.auth-shell footer { text-align: center; margin-top: 24px; }
+@media (min-width: 768px) {
+    .account-bar { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); }
+}
+@media (max-width: 767px) {
+    .site-header { padding-bottom: 12px; }
+    .account-bar { margin-top: 8px; justify-content: center; }
+}
