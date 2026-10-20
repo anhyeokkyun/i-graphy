@@ -1,4 +1,4 @@
-"""create accounts table"""
+"""create accounts table and assign posts to accounts"""
 
 from alembic import op
 import sqlalchemy as sa
@@ -20,8 +20,14 @@ def upgrade() -> None:
         sa.UniqueConstraint("username"),
     )
     op.create_index("ix_accounts_username", "accounts", ["username"], unique=False)
+    op.add_column("posts", sa.Column("owner_id", sa.Integer(), nullable=True))
+    op.create_foreign_key("fk_posts_owner_id_accounts", "posts", "accounts", ["owner_id"], ["id"])
+    op.create_index("ix_posts_owner_id", "posts", ["owner_id"], unique=False)
 
 
 def downgrade() -> None:
+    op.drop_index("ix_posts_owner_id", table_name="posts")
+    op.drop_constraint("fk_posts_owner_id_accounts", "posts", type_="foreignkey")
+    op.drop_column("posts", "owner_id")
     op.drop_index("ix_accounts_username", table_name="accounts")
     op.drop_table("accounts")

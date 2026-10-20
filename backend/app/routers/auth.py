@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import Account
+from ..models import Account, Post
 from ..security import hash_password, verify_password
 
 router = APIRouter(prefix="/api/auth", tags=["authentication"])
@@ -39,6 +39,9 @@ def register(payload: Credentials, request: Request, db: Session = Depends(get_d
     account = Account(username=payload.username, password_hash=hash_password(payload.password))
     db.add(account)
     try:
+        db.flush()
+        # 계정 기능 도입 전부터 있던 게시글은 최초 계정에 귀속해 기존 데이터를 보존한다.
+        db.execute(update(Post).where(Post.owner_id.is_(None)).values(owner_id=account.id))
         db.commit()
     except IntegrityError:
         db.rollback()
