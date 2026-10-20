@@ -9,16 +9,12 @@
 <body>
 <header class="site-header">
     <a class="site-name" href="/">i-graphy</a>
+    <div class="account-bar"><span id="current-account"></span><button id="logout-button" class="button" type="button">Log out</button></div>
 </header>
-
 <main class="page-content">
     <section aria-live="polite">
-        <div class="board-create-action">
-            <a class="button button-primary" href="/new-post">New Post</a>
-        </div>
-
+        <div class="board-create-action"><a class="button button-primary" href="/new-post">New Post</a></div>
         <div id="board-list"></div>
-
         <div class="board-search-action">
             <form id="search-form" class="search-form">
                 <label class="sr-only" for="search-type">검색 조건</label>
@@ -27,25 +23,16 @@
                     <option value="content">Content</option>
                     <option value="title_content">Title+Content</option>
                 </select>
-
                 <label class="sr-only" for="search-input">검색어</label>
-                <input
-                    id="search-input"
-                    name="search"
-                    type="search"
-                    placeholder="Search..."
-                >
-
+                <input id="search-input" name="search" type="search" placeholder="Search...">
                 <button class="button" type="submit">Search</button>
             </form>
         </div>
-
         <nav id="pagination" class="pagination" aria-label="페이지 이동"></nav>
     </section>
 </main>
-
 <footer>Copyright 2026 An, Hyeokkyun. All rights reserved.</footer>
-
+<script src="/js/auth-status.js"></script>
 <script src="/js/board.js"></script>
 </body>
 </html>
