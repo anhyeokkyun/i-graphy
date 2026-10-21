@@ -8,6 +8,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from .routers.auth import router as auth_router
 from .routers.posts import router as posts_router
+from .routers.sharing import router as sharing_router
 from .security import session_secret
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -27,6 +28,7 @@ app.mount("/css", StaticFiles(directory=FRONTEND_DIR / "css"), name="css")
 app.mount("/js", StaticFiles(directory=FRONTEND_DIR / "js"), name="js")
 app.include_router(auth_router)
 app.include_router(posts_router)
+app.include_router(sharing_router)
 
 
 @app.get("/")
@@ -58,3 +60,13 @@ def new_post(request: Request):
 @app.get("/edit-post")
 def edit_post(request: Request):
     return protected_page(request, "edit-post.html")
+
+
+@app.get("/shared/board/{token}")
+def shared_board(token: str):
+    return FileResponse(FRONTEND_DIR / "shared-board.html")
+
+
+@app.get("/shared/post/{token}")
+def shared_post(token: str):
+    return FileResponse(FRONTEND_DIR / "shared-post.html")
