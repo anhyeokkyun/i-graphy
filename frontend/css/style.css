@@ -314,9 +314,23 @@ footer {
 .auth-switch button { border: 0; padding: 0; background: none; text-decoration: underline; cursor: pointer; color: #222; }
 .auth-shell footer { text-align: center; margin-top: 24px; }
 @media (min-width: 768px) {
-    .account-bar { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); }
+    .account-bar {
+        position: static;
+        justify-content: flex-end;
+        margin-top: 8px;
+        transform: none;
+    }
 }
+
 @media (max-width: 767px) {
-    .site-header { padding-bottom: 12px; }
-    .account-bar { margin-top: 8px; justify-content: center; }
+    .site-header {
+        padding-bottom: 12px;
+    }
+
+    .account-bar {
+        position: static;
+        margin-top: 8px;
+        justify-content: center;
+        transform: none;
+    }
 }
