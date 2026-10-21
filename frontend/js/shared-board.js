@@ -66,7 +66,7 @@ async function loadSharedBoard() {
         const response = await fetch(`/api/public/board/${encodeURIComponent(token)}`);
         if (!response.ok) throw new Error("이 공유 링크는 만료되었거나 취소되었습니다.");
         const data = await response.json();
-        titleElement.textContent = data.username + " · Shared Board";
+        titleElement.textContent = data.username + " · Shared";
         messageElement.textContent = "읽기 전용 · 만료 시각: " + formatDate(data.expires_at);
 
         if (!data.posts.length) {
