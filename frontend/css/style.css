@@ -274,10 +274,15 @@ footer {
 
     .board-create-action {
         gap: 8px;
+        align-items: center;
     }
 
     .board-create-action .account-bar {
         flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+        margin: 0;
+        transform: none;
     }
 
     .search-form {
