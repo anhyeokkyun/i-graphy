@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i-graphy</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+<main class="auth-shell">
+    <header class="auth-brand">
+        <a class="site-name" href="/">i-graphy</a>
+        <p>Keep your thoughts, experiences, and knowledge.</p>
+    </header>
+    <section class="auth-card" aria-labelledby="auth-title">
+        <div class="auth-tabs" role="tablist" aria-label="계정 메뉴">
+            <button id="login-tab" class="auth-tab is-active" type="button" role="tab" aria-selected="true">Log in</button>
+            <button id="register-tab" class="auth-tab" type="button" role="tab" aria-selected="false">Create account</button>
+        </div>
+        <h1 id="auth-title">Log in</h1>
+        <p id="auth-description" class="auth-description">계정명과 암호를 입력하세요.</p>
+        <form id="auth-form" class="auth-form">
+            <label for="username">Account name</label>
+            <input id="username" name="username" type="text" minlength="1" maxlength="64" autocomplete="username" required>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" maxlength="256" autocomplete="current-password" required>
+            <p id="auth-message" class="auth-message" role="alert" hidden></p>
+            <button id="auth-submit" class="button button-primary auth-submit" type="submit">Log in</button>
+        </form>
+        <p class="auth-switch"><span id="auth-switch-label">처음 방문하셨나요?</span> <button id="auth-switch" type="button">계정 생성</button></p>
+    </section>
+    <footer>Copyright 2026 An, Hyeokkyun. All rights reserved.</footer>
+</main>
+<script src="/js/auth.js"></script>
+</body>
+</html>
