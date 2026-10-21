@@ -160,7 +160,7 @@
             const cancelSharingButton = document.createElement("button");
             cancelSharingButton.type = "button";
             cancelSharingButton.className = "button button-danger";
-            cancelSharingButton.textContent = "Cancel sharing";
+            cancelSharingButton.textContent = "Cancel";
             cancelSharingButton.addEventListener("click", async () => {
                 if (!confirm("공유를 취소할까요? 기존 공유 링크는 즉시 사용할 수 없게 됩니다.")) return;
                 cancelSharingButton.disabled = true;
