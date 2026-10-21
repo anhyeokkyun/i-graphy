@@ -53,6 +53,19 @@ function renderPost(post) {
     const right = document.createElement("div");
     right.className = "post-actions-right";
 
+    const shareButton = document.createElement("button");
+    shareButton.className = "button";
+    shareButton.type = "button";
+    shareButton.textContent = "Share";
+    shareButton.addEventListener("click", () => {
+        window.iGraphySharing.openShareDialog({
+            kind: "post",
+            postId: post.id,
+            button: shareButton,
+        });
+    });
+    window.iGraphySharing.updateButton(shareButton, `/api/sharing/posts/${encodeURIComponent(post.id)}`);
+
     const editButton = document.createElement("a");
     editButton.className = "button";
     editButton.href = `/edit-post?id=${encodeURIComponent(post.id)}&from=${encodeURIComponent(getReturnUrl())}`;
@@ -64,7 +77,7 @@ function renderPost(post) {
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => deletePost(post.id));
 
-    right.append(editButton, deleteButton);
+    right.append(shareButton, editButton, deleteButton);
     actions.append(listButton, right);
     postElement.replaceChildren(title, meta, separator, body, actions);
 }
@@ -79,8 +92,6 @@ async function deletePost(postId) {
             return;
         }
 
-        // 삭제 후 현재 페이지가 사라졌는지 서버의 현재 페이지 조회로 확인한다.
-        // 422이면 마지막 페이지를 다시 조회해 같은 검색 상태를 유지한다.
         const returnUrl = new URL(getReturnUrl(), window.location.origin);
         const check = await fetch(`/api/posts${returnUrl.search}`);
         if (check.ok) {
@@ -99,8 +110,6 @@ async function deletePost(postId) {
             return;
         }
 
-        // 삭제 자체는 성공했지만 후속 상태 확인에 실패한 경우에는
-        // 사용자가 작업하던 목록으로 일단 복귀한다.
         window.location.href = getReturnUrl();
     } catch (error) {
         alert("게시글을 삭제하지 못했습니다.");

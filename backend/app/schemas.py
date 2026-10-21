@@ -18,6 +18,7 @@ class PostListItem(BaseModel):
     title: str
     created_at: datetime
     updated_at: datetime
+    share_active: bool = False
 
 
 class PostResponse(BaseModel):
