@@ -46,7 +46,7 @@ button, input, select, textarea { font: inherit; }
     min-width: 0;
 }
 
-.board-create-action .button {
+.board-create-action > .button {
     width: 100px;
     text-align: center;
 }
