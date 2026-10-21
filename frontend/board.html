@@ -13,7 +13,10 @@
 <main class="page-content">
     <section aria-live="polite">
         <div class="board-create-action">
-            <a class="button button-primary" href="/new-post">New Post</a>
+            <div class="board-primary-actions">
+                <a class="button button-primary" href="/new-post">New Post</a>
+                <button id="board-share-button" class="button" type="button">Share</button>
+            </div>
             <div class="account-bar"><span id="current-account"></span><button id="logout-button" class="button" type="button">Log out</button></div>
         </div>
         <div id="board-list"></div>
@@ -35,6 +38,7 @@
 </main>
 <footer>Copyright 2026 An, Hyeokkyun. All rights reserved.</footer>
 <script src="/js/auth-status.js"></script>
+<script src="/js/sharing-ui.js"></script>
 <script src="/js/board.js"></script>
 </body>
 </html>
