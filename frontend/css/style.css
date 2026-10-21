@@ -13,6 +13,7 @@ a { color: inherit; }
 button, input, select, textarea { font: inherit; }
 
 .site-header {
+    position: relative;
     border-bottom: 1px solid #ddd;
     padding: 10px 16px;
     text-align: center;
@@ -315,9 +316,10 @@ footer {
 .auth-shell footer { text-align: center; margin-top: 24px; }
 @media (min-width: 768px) {
     .account-bar {
-        position: static;
-        justify-content: flex-end;
-        margin-top: 8px;
+        position: absolute;
+        left: 24px;
+        bottom: 8px;
+        justify-content: flex-start;
         transform: none;
     }
 }
