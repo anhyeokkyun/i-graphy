@@ -470,3 +470,34 @@ footer {
         justify-content: flex-end;
     }
 }
+
+
+/* Collapsible posts on the public shared board */
+.shared-post-heading-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.shared-post-heading-row .shared-post-heading {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+}
+.shared-post-toggle {
+    flex: 0 0 auto;
+    width: 34px;
+    min-height: 34px;
+    padding: 2px 0;
+    font-size: 20px;
+    line-height: 1;
+}
+.shared-post-toggle:focus-visible {
+    outline: 2px solid #237a45;
+    outline-offset: 2px;
+}
+.shared-post-content[hidden] {
+    display: none;
+}
+.shared-post-content .post-meta {
+    margin-top: 10px;
+}
