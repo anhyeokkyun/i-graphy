@@ -31,8 +31,19 @@ button, input, select, textarea { font: inherit; }
 
 .board-create-action {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 12px;
+}
+
+.board-create-action > .button {
+    flex: 0 0 auto;
+}
+
+.board-create-action .account-bar {
+    justify-content: flex-start;
+    min-width: 0;
 }
 
 .board-create-action .button {
@@ -261,6 +272,14 @@ footer {
         justify-content: center;
     }
 
+    .board-create-action {
+        gap: 8px;
+    }
+
+    .board-create-action .account-bar {
+        flex: 1 1 auto;
+    }
+
     .search-form {
         width: 100%;
     }
@@ -293,7 +312,7 @@ footer {
 }
 
 /* Account landing and session controls */
-.account-bar { display: flex; justify-content: flex-end; align-items: center; gap: 10px; font-size: 13px; }
+.account-bar { display: flex; justify-content: flex-start; align-items: center; gap: 10px; font-size: 13px; }
 .button:disabled { opacity: .6; cursor: wait; }
 .auth-page { min-height: 100vh; }
 .auth-shell { width: min(100% - 32px, 420px); margin: 9vh auto 0; }
@@ -314,16 +333,6 @@ footer {
 .auth-switch { text-align: center; font-size: 13px; color: #666; margin: 20px 0 0; }
 .auth-switch button { border: 0; padding: 0; background: none; text-decoration: underline; cursor: pointer; color: #222; }
 .auth-shell footer { text-align: center; margin-top: 24px; }
-@media (min-width: 768px) {
-    .account-bar {
-        position: absolute;
-        left: 24px;
-        bottom: 8px;
-        justify-content: flex-start;
-        transform: none;
-    }
-}
-
 @media (max-width: 767px) {
     .site-header {
         padding-bottom: 12px;
@@ -331,8 +340,8 @@ footer {
 
     .account-bar {
         position: static;
-        margin-top: 8px;
-        justify-content: center;
+        margin-top: 0;
+        justify-content: flex-start;
         transform: none;
     }
 }
