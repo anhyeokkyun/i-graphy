@@ -11,6 +11,56 @@ function formatDate(value) {
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
+function renderSharedPost(post) {
+    const article = document.createElement("article");
+    article.className = "shared-post-card";
+
+    const heading = document.createElement("div");
+    heading.className = "shared-post-heading-row";
+
+    const title = document.createElement("h2");
+    title.className = "shared-post-heading";
+    title.textContent = post.title;
+
+    const contentId = `shared-post-content-${post.id}`;
+    const toggle = document.createElement("button");
+    toggle.className = "button shared-post-toggle";
+    toggle.type = "button";
+    toggle.textContent = "+";
+    toggle.setAttribute("aria-label", `게시글 내용 펼치기: ${post.title}`);
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", contentId);
+
+    const content = document.createElement("div");
+    content.className = "shared-post-content";
+    content.id = contentId;
+    content.hidden = true;
+
+    const date = document.createElement("p");
+    date.className = "post-meta";
+    date.textContent = "작성 " + formatDate(post.created_at) + " · 수정 " + formatDate(post.updated_at);
+
+    const body = document.createElement("div");
+    body.className = "post-body";
+    body.textContent = post.content;
+
+    content.append(date, body);
+    heading.append(title, toggle);
+    toggle.addEventListener("click", () => {
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!expanded));
+        toggle.textContent = expanded ? "+" : "−";
+        toggle.setAttribute(
+            "aria-label",
+            `${expanded ? "게시글 내용 펼치기" : "게시글 내용 접기"}: ${post.title}`
+        );
+        content.hidden = expanded;
+    });
+
+    article.append(heading, content);
+    return article;
+}
+
 async function loadSharedBoard() {
     try {
         const response = await fetch(`/api/public/board/${encodeURIComponent(token)}`);
@@ -29,19 +79,7 @@ async function loadSharedBoard() {
 
         const fragment = document.createDocumentFragment();
         for (const post of data.posts) {
-            const article = document.createElement("article");
-            article.className = "shared-post-card";
-            const heading = document.createElement("h2");
-            heading.className = "shared-post-heading";
-            heading.textContent = post.title;
-            const date = document.createElement("p");
-            date.className = "post-meta";
-            date.textContent = "작성 " + formatDate(post.created_at) + " · 수정 " + formatDate(post.updated_at);
-            const body = document.createElement("div");
-            body.className = "post-body";
-            body.textContent = post.content;
-            article.append(heading, date, body);
-            fragment.append(article);
+            fragment.append(renderSharedPost(post));
         }
         postsElement.replaceChildren(fragment);
     } catch (error) {
