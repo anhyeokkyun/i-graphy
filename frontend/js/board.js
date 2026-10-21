@@ -14,6 +14,7 @@ const paginationElement = document.getElementById("pagination");
 const searchForm = document.getElementById("search-form");
 const searchTypeElement = document.getElementById("search-type");
 const searchInput = document.getElementById("search-input");
+const boardShareButton = document.getElementById("board-share-button");
 
 searchTypeElement.value = ["title", "content", "title_content"].includes(searchType)
     ? searchType
@@ -32,9 +33,6 @@ function formatDate(value) {
 function buildBoardUrl(nextPage, nextSearch = search, nextSearchType = searchType) {
     const url = new URL("/board", window.location.origin);
     url.searchParams.set("page", String(nextPage));
-
-    // 검색어가 비어 있어도 선택한 검색 조건은 유지한다.
-    // 서버에서는 빈 검색어를 전체 게시글 조회로 처리한다.
     url.searchParams.set("search_type", nextSearchType);
     if (nextSearch) url.searchParams.set("search", nextSearch);
     return `${url.pathname}?${url.searchParams.toString()}`;
@@ -60,16 +58,28 @@ function renderPosts(posts) {
         row.className = "board-row";
         row.href = `/post?id=${encodeURIComponent(post.id)}&from=${encodeURIComponent(window.location.pathname + window.location.search)}`;
 
+        const titleGroup = document.createElement("span");
+        titleGroup.className = "board-title-group";
         const title = document.createElement("span");
         title.className = "board-title";
         title.textContent = post.title;
+        titleGroup.append(title);
+
+        if (post.share_active) {
+            const sharedIcon = document.createElement("span");
+            sharedIcon.className = "shared-icon";
+            sharedIcon.textContent = "🔗";
+            sharedIcon.setAttribute("aria-label", "공유 중");
+            sharedIcon.title = "공유 중";
+            titleGroup.append(sharedIcon);
+        }
 
         const date = document.createElement("time");
         date.className = "board-date";
         date.dateTime = post.created_at;
         date.textContent = formatDate(post.created_at);
 
-        row.append(title, date);
+        row.append(titleGroup, date);
         fragment.append(row);
     }
     listElement.replaceChildren(fragment);
@@ -115,12 +125,15 @@ searchForm.addEventListener("submit", (event) => {
     window.location.href = buildBoardUrl(1, nextSearch, nextType);
 });
 
-async function loadPosts() {
-    if (!Number.isInteger(page) || page < 1) {
-        // API가 정의한 422 규칙과 동일하게 처리할 수 있도록 실제 요청을 보낸다.
-        // 서버가 반환하는 기본 오류 응답을 프런트에서 별도 변환하지 않는다.
-    }
+boardShareButton.addEventListener("click", () => {
+    window.iGraphySharing.openShareDialog({
+        kind: "board",
+        button: boardShareButton,
+    });
+});
+window.iGraphySharing.updateButton(boardShareButton, "/api/sharing/board");
 
+async function loadPosts() {
     const url = new URL("/api/posts", window.location.origin);
     url.searchParams.set("page", String(page));
     url.searchParams.set("search_type", searchType);
